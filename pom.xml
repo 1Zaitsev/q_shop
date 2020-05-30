@@ -71,7 +71,19 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
+            <plugin>
+                <groupId>org.flywaydb</groupId>
+                <artifactId>flyway-maven-plugin</artifactId>
+                <version>5.2.1</version>
+                <configuration>
+                    <url>jdbc:mysql://localhost:3306/q_shop?useSSL=false&amp;useUnicode=true&amp;characterEncoding=UTF-8&amp;serverTimezone=UTC</url>
+                    <user>19012</user>
+                    <password>19012</password>
+                    <schemas>
+                        <schema>q_shop</schema>
+                    </schemas>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
-
 </project>
