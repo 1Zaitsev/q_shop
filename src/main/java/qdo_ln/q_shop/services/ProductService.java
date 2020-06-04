@@ -40,7 +40,7 @@ public class ProductService {
         return productRepository.findAll(buildSpecification(param), buildPageRequest(param));
     }
 
-    public Specification<Product> buildSpecification(Map<String, String> param){
+    private Specification<Product> buildSpecification(Map<String, String> param){
         Specification<Product> specification = Specification.where(null);
         if(param.containsKey("min_price") && !param.get("min_price").isEmpty()){
             double minPrice = Double.parseDouble(param.get("min_price"));
@@ -60,7 +60,7 @@ public class ProductService {
         return specification;
     }
 
-    public Pageable buildPageRequest(Map<String, String> param){
+    private Pageable buildPageRequest(Map<String, String> param){
         int pageIndex=0;
         int pageSize=10;
 

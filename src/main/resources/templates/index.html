@@ -11,6 +11,7 @@
 </head>
 <body>
 <div class="container">
+    <div th:replace="~{navigation :: navigation(Main)}"/>
     <h1>q_shop</h1>
     <h3>Simple filter</h3>
     <form th:action="@{/}" method="get">
@@ -46,19 +47,21 @@
             <th>Id</th>
             <th>Product</th>
             <th>Price</th>
+            <th>Actions</th>
         </tr>
         </thead>
-        <!--/*@thymesVar id="item" type="qdo_ln.q_shop.entities.Item"*/-->
-        <!--/*@thymesVar id="page" type="org.springframework.data.domain.Page<qdo_ln.q_shop.entities.Item>"*/-->
         <tbody>
-        <tr th:each="item : ${page.content}">
-            <td th:text="${item.id}">
+        <tr th:each="product : ${page.content}">
+            <td th:text="${product.id}">
             <td>
-                <div th:text="${item.title}"/>
-                <div th:text="${item.description}"/>
-                <div th:text="${item.category.title}"/>
+                <div th:text="${product.title}"/>
+                <div th:text="${product.description}"/>
+                <div th:text="${product.category.title}"/>
             </td>
-            <td th:text="${item.price}"></td>
+            <td th:text="${product.price}"></td>
+            <td>
+                <a th:href="@{'/cart/add/' + ${product.id}}" class="btn btn-primary">Add to cart</a>
+            </td>
         </tr>
         </tbody>
     </table>
