@@ -9,6 +9,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import qdo_ln.q_shop.entities.Role;
 import qdo_ln.q_shop.entities.User;
+import qdo_ln.q_shop.providers.UserProvider;
 import qdo_ln.q_shop.repositories.UserRepository;
 
 import javax.transaction.Transactional;
@@ -19,6 +20,7 @@ import java.util.stream.Collectors;
 @Service
 public class UserService implements UserDetailsService {
     private UserRepository userRepository;
+    private UserProvider userProvider;
     private RoleService roleService;
 
     @Autowired
@@ -31,8 +33,14 @@ public class UserService implements UserDetailsService {
         this.roleService = roleService;
     }
 
+    @Autowired
+    public void setUserProvider(UserProvider userProvider) {
+        this.userProvider = userProvider;
+    }
+
     public User getUserByPhone(String phone){
-        return userRepository.findOneByPhone(phone);
+//        return userRepository.findOneByPhone(phone);
+        return userProvider.getUser(phone);
     }
 
     public boolean isUserExistByPhone(String phone){
