@@ -31,11 +31,11 @@ public class UserService implements UserDetailsService {
         this.roleService = roleService;
     }
 
-    public User getUserByPhone(String phone){
+    public User getUserByPhone(String phone) {
         return userRepository.findOneByPhone(phone);
     }
 
-    public boolean isUserExistByPhone(String phone){
+    public boolean isUserExistByPhone(String phone) {
         return userRepository.existsByPhone(phone);
     }
 
@@ -43,10 +43,10 @@ public class UserService implements UserDetailsService {
     @Transactional
     public UserDetails loadUserByUsername(String phone) throws UsernameNotFoundException {
         User user = getUserByPhone(phone);
-        if(user==null){
+        if (user == null) {
             throw new UsernameNotFoundException("Invalid login or password");
         }
-        return new org.springframework.security.core.userdetails.User(user.getPhone(), user.getPassword(),mapRolesToAuthorities(user.getRoles()));
+        return new org.springframework.security.core.userdetails.User(user.getPhone(), user.getPassword(), mapRolesToAuthorities(user.getRoles()));
     }
 
     private Collection<? extends GrantedAuthority> mapRolesToAuthorities(List<Role> roles) {

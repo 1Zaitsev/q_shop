@@ -5,9 +5,9 @@ CREATE TABLE q_shop.users_roles
     user_id INT NOT NULL,
     role_id INT NOT NULL,
     PRIMARY KEY (user_id, role_id),
-    INDEX roles_crosstable_idx (role_id ASC) VISIBLE,
+    INDEX   roles_crosstable_idx(role_id ASC) VISIBLE,
     CONSTRAINT users_crosstable
-        FOREIGN KEY (`user_id`)
+        FOREIGN KEY ( user_id )
             REFERENCES q_shop.users (id)
             ON DELETE CASCADE
             ON UPDATE CASCADE,

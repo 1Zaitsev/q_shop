@@ -13,12 +13,12 @@
 <body>
 
 <div class="container">
-    <div th:replace="~{navigation :: navigation(Profile)}" />
+    <div th:replace="~{navigation :: navigation(Profile)}"/>
 
     <h1>Профиль</h1>
 
-    <h5 th:text="'Name: ' + ${user.firstName} + ' ' + ${user.lastName}" />
-    <h5 th:text="'Phone: ' + ${user.phone}" />
+    <h5 th:text="'Name: ' + ${user.firstName} + ' ' + ${user.lastName}"/>
+    <h5 th:text="'Phone: ' + ${user.phone}"/>
 
     <h3>Your orders</h3>
     <table class="table table-hover">
@@ -34,7 +34,7 @@
             <td th:text="${order.id}">
             <td th:text="${order.price}">
             <td>
-            <a th:href="@{/profile/orders/{orderId}(orderId=${order.id})}" class="btn btn-primary">Show details</a>
+                <a th:href="@{/profile/orders/{orderId}(orderId=${order.id})}" class="btn btn-primary">Show details</a>
             </td>
         </tr>
         </tbody>

@@ -30,7 +30,7 @@ public class Order {
         this.user = user;
         this.price = cart.getPrice();
         this.items = new ArrayList<>();
-        for (OrderItem i: cart.getItems()) {
+        for (OrderItem i : cart.getItems()) {
             i.setOrder(this);
             this.items.add(i);
         }

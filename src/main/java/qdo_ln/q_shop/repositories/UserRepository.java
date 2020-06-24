@@ -7,5 +7,6 @@ import qdo_ln.q_shop.entities.User;
 @Repository
 public interface UserRepository extends CrudRepository<User, Integer> {
     User findOneByPhone(String phone);
+
     boolean existsByPhone(String phone);
 }

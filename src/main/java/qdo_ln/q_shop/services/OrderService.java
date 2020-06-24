@@ -17,15 +17,15 @@ public class OrderService {
         this.orderRepository = orderRepository;
     }
 
-    public Order save(Order order){
+    public Order save(Order order) {
         return orderRepository.save(order);
     }
 
-    public List<Order> findByUser(User user){
+    public List<Order> findByUser(User user) {
         return orderRepository.findAllByUser(user);
     }
 
-    public Order findById(int id){
+    public Order findById(int id) {
         return orderRepository.findById(id).get();
     }
 }

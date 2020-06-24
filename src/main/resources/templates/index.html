@@ -8,20 +8,29 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+    <script type="text/javascript" th:src="@{https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.js}"></script>
+    <script type="text/javascript"
+            th:src="@{https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.4.0/sockjs.js}"></script>
+    <script type="text/javascript" th:src="@{/static/js/script.js}"></script>
 </head>
 <body>
 <div class="container">
     <div th:replace="~{navigation :: navigation(Main)}"/>
     <h1>q_shop</h1>
+    <h3>Message from backend</h3>
+    <button id="connect" onclick="connect()" class="btn btn-primary">connect</button>
+    <input id="resultInput" type="text">
     <h3>Simple filter</h3>
     <form th:action="@{/}" method="get">
         <div class="input-group">
-            <input class="form-control" name="min_price" th:value="${param.min_price}" type="number" step="0.01" placeholder="Minimal price"/>
-            <input class="form-control" name = "max_price" th:value="${param.max_price}" type="number" step="0.01" placeholder="Maximal price"/>
+            <input class="form-control" name="min_price" th:value="${param.min_price}" type="number" step="0.01"
+                   placeholder="Minimal price"/>
+            <input class="form-control" name="max_price" th:value="${param.max_price}" type="number" step="0.01"
+                   placeholder="Maximal price"/>
         </div>
         <br>
         Page size:
-        <select name="page_size" >
+        <select name="page_size">
             <option th:value="null">---</option>
             <option>10</option>
             <option>5</option>
@@ -60,7 +69,8 @@
             </td>
             <td th:text="${product.price}"></td>
             <td>
-                <a th:href="@{'/cart/add/' + ${product.id}}" class="btn btn-primary">Add to cart</a>
+                <a th:href="@{'/cart/add/' + ${product.id}}" class="btn btn-primary" onclick="sendName()">Add to
+                    cart</a>
             </td>
         </tr>
         </tbody>
