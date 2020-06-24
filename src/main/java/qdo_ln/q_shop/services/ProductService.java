@@ -23,7 +23,7 @@ public class ProductService {
     private StringBuilder requestDefinition;
 
     @PostConstruct
-    public void initRequestDefinition(){
+    public void initRequestDefinition() {
         requestDefinition = new StringBuilder();
     }
 
@@ -32,27 +32,27 @@ public class ProductService {
         this.productRepository = productRepository;
     }
 
-    public Product findById(int id){
+    public Product findById(int id) {
         return productRepository.findById(id).get();
     }
 
-    public Page<Product> findAll(Map<String,String> param){
+    public Page<Product> findAll(Map<String, String> param) {
         return productRepository.findAll(buildSpecification(param), buildPageRequest(param));
     }
 
-    private Specification<Product> buildSpecification(Map<String, String> param){
+    private Specification<Product> buildSpecification(Map<String, String> param) {
         Specification<Product> specification = Specification.where(null);
-        if(param.containsKey("min_price") && !param.get("min_price").isEmpty()){
+        if (param.containsKey("min_price") && !param.get("min_price").isEmpty()) {
             double minPrice = Double.parseDouble(param.get("min_price"));
             specification = specification.and(ProductSpecification.priceGE(minPrice));
             requestDefinition.append("&min_price=").append(minPrice);
         }
-        if(param.containsKey("max_price") && !param.get("max_price").isEmpty()){
+        if (param.containsKey("max_price") && !param.get("max_price").isEmpty()) {
             double maxPrice = Double.parseDouble(param.get("max_price"));
             specification = specification.and(ProductSpecification.priceLE(maxPrice));
             requestDefinition.append("&max_price=").append(maxPrice);
         }
-        if(param.containsKey("category") && !param.get("category").isEmpty()){
+        if (param.containsKey("category") && !param.get("category").isEmpty()) {
             int categoryId = Integer.parseInt(param.get("category"));
             specification = specification.and(ProductSpecification.categoryEq(categoryId));
             requestDefinition.append("&category=").append(categoryId);
@@ -60,14 +60,14 @@ public class ProductService {
         return specification;
     }
 
-    private Pageable buildPageRequest(Map<String, String> param){
-        int pageIndex=0;
-        int pageSize=10;
+    private Pageable buildPageRequest(Map<String, String> param) {
+        int pageIndex = 0;
+        int pageSize = 10;
 
-        if(param.containsKey("p") && !param.get("p").isEmpty()){
+        if (param.containsKey("p") && !param.get("p").isEmpty()) {
             pageIndex = Integer.parseInt(param.get("p"));
         }
-        if(param.containsKey("page_size") && !param.get("page_size").isEmpty()){
+        if (param.containsKey("page_size") && !param.get("page_size").isEmpty()) {
             pageSize = Integer.parseInt(param.get("page_size"));
             requestDefinition.append("&page_size=").append(pageSize);
         }
@@ -75,12 +75,12 @@ public class ProductService {
         String sortType = "id";
         Sort.Direction sortDirection = Sort.Direction.ASC;
 
-        if(param.containsKey("sort_type") && !param.get("sort_type").isEmpty()){
-            sortType=param.get("sort_type");
+        if (param.containsKey("sort_type") && !param.get("sort_type").isEmpty()) {
+            sortType = param.get("sort_type");
             requestDefinition.append("&sort_type=").append(sortType);
         }
 
-        if(param.containsKey("sort_direction") && !param.get("sort_direction").isEmpty()){
+        if (param.containsKey("sort_direction") && !param.get("sort_direction").isEmpty()) {
             String sortDir = param.get("sort_direction");
             sortDirection = Sort.Direction.valueOf(sortDir);
             requestDefinition.append("&sort_direction=").append(sortDir);

@@ -42,7 +42,7 @@ public class MainController {
     }
 
     @GetMapping("/")
-    public String index(Model model, @RequestParam Map<String, String> param){
+    public String index(Model model, @RequestParam Map<String, String> param) {
         Page<Product> page = productService.findAll(param);
         StringBuilder requestDefinition = productService.getRequestDefinition();
         model.addAttribute("page", page);
@@ -51,7 +51,7 @@ public class MainController {
     }
 
     @GetMapping("/login")
-    public String login(){
+    public String login() {
         return "login";
     }
 
@@ -68,7 +68,7 @@ public class MainController {
     }
 
     @GetMapping("/profile/orders/{id}")
-    public String showOrderById(Model model, @PathVariable int id){
+    public String showOrderById(Model model, @PathVariable int id) {
         Order order = orderService.findById(id);
         List<OrderItem> orderItems = orderItemService.findByOrder(order);
         model.addAttribute("order", order);
@@ -90,10 +90,15 @@ public class MainController {
     }
 
     @GetMapping("/orders/checkout")
-    public String checkoutOrder(Principal principal){
+    public String checkoutOrder(Principal principal) {
         User user = userService.getUserByPhone(principal.getName());
         Order order = new Order(user, cart);
         orderService.save(order);
         return "redirect:/";
+    }
+
+    @GetMapping("/ws_test")
+    public String wsTest() {
+        return "ws_test";
     }
 }
