@@ -1,5 +1,6 @@
 package qdo_ln.q_shop.controllers;
 
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
@@ -8,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import qdo_ln.q_shop.QShopApplication;
 import qdo_ln.q_shop.beans.Cart;
 import qdo_ln.q_shop.entities.Order;
 import qdo_ln.q_shop.entities.OrderItem;
@@ -30,15 +32,17 @@ public class MainController {
     private OrderService orderService;
     private OrderItemService orderItemService;
     private Cart cart;
+    private RabbitTemplate rabbitTemplate;
 
     @Autowired
-    public MainController(ProductService productService, CategoryService categoryService, UserService userService, OrderService orderService, OrderItemService orderItemService, Cart cart) {
+    public MainController(ProductService productService, CategoryService categoryService, UserService userService, OrderService orderService, OrderItemService orderItemService, Cart cart, RabbitTemplate rabbitTemplate) {
         this.productService = productService;
         this.categoryService = categoryService;
         this.userService = userService;
         this.orderService = orderService;
         this.orderItemService = orderItemService;
         this.cart = cart;
+        this.rabbitTemplate = rabbitTemplate;
     }
 
     @GetMapping("/")
@@ -94,6 +98,7 @@ public class MainController {
         User user = userService.getUserByPhone(principal.getName());
         Order order = new Order(user, cart);
         orderService.save(order);
+        rabbitTemplate.convertAndSend(QShopApplication.EXCHANGE_NAME, "Order checkout confirmation (from RabbitMQ). Order # " + order.getId());
         return "redirect:/";
     }
 }
